@@ -6,6 +6,6 @@
 	"mainsrc": "./src",
 	"projects": [],
 	"dependencies": {
-		"https://github.com/djsystemweb/djpdfreport": "^0.0.1"
+		"https://github.com/djsystemweb/djpdfreport": "^0.0.2"
 	}
 }

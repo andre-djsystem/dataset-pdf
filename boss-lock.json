@@ -4,7 +4,7 @@
 	"installedModules": {
 		"https://github.com/djsystemweb/djpdfreport": {
 			"name": "djpdfreport",
-			"version": "0.0.1",
+			"version": "0.0.2",
 			"hash": "4b6efc856fc7b29833924fce4c660e13",
 			"artifacts": {},
 			"failed": false,

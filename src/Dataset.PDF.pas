@@ -18,18 +18,18 @@ type
 
   TDataSetPDFHelper = class helper (TDataSetSerializeHelper) for TDataSet
   public
-    function ToPDFStream(const ADownloadFile: Boolean = True; const AChildRecords: Boolean = True): TStream;
-    procedure ToPDFFile(const AFileName: String; const AChildRecords: Boolean = True);
+    function ToPDFStream(const AFieldStructure: String; const ADownloadFile: Boolean = True; const AChildRecords: Boolean = True): TStream;
+    procedure ToPDFFile(const AFileName: String; const AFieldStructure: String = ''; const AChildRecords: Boolean = True);
   end;
 
 implementation
 
-function TDataSetPDFHelper.ToPDFStream(const ADownloadFile: Boolean;
-  const AChildRecords: Boolean): TStream;
+function TDataSetPDFHelper.ToPDFStream(const AFieldStructure: String;
+  const ADownloadFile: Boolean; const AChildRecords: Boolean): TStream;
 var
   LDataSetPDF: TDataSetPDF;
 begin
-  LDataSetPDF := TDataSetPDF.Create(Self, ADownloadFile, AChildRecords);
+  LDataSetPDF := TDataSetPDF.Create(Self, AFieldStructure, ADownloadFile, AChildRecords);
   try
     Result := LDataSetPDF.ToStream;
   finally
@@ -38,7 +38,7 @@ begin
 end;
 
 procedure TDataSetPDFHelper.ToPDFFile(const AFileName: String;
-  const AChildRecords: Boolean);
+  const AFieldStructure: String; const AChildRecords: Boolean);
 var
   LStream: TMemoryStream;
 begin
@@ -46,7 +46,7 @@ begin
   begin
     LStream := TMemoryStream.Create;
     try
-      LStream.LoadFromStream(TDataSet(Self).ToPDFStream(False, AChildRecords));
+      LStream.LoadFromStream(TDataSet(Self).ToPDFStream(AFieldStructure, False, AChildRecords));
       LStream.Position := 0;
       LStream.SaveToFile(AFileName);
     finally

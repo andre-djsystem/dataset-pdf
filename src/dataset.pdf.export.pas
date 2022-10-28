@@ -19,7 +19,10 @@ type
     FDownloadFile: Boolean;
     FChildRecord: Boolean;
     FPDF: TDJPDFReport;
+    FFileFieldStructure: String;
 
+    function StrToAlignment(const AAlignment: String; const ADefaultAlignment: TAlignment): TAlignment;
+    procedure LoadFieldStructure;
     procedure DoTableTitles(const ADataSet: TDataSet);
     procedure DoTableRows(const ADataSet: TDataSet);
     procedure ExportToPDF(ADataSet: TDataSet; var AHasChild: Boolean; const AChildRecords: Boolean; const ADrawTitle: Boolean);
@@ -27,7 +30,7 @@ type
     procedure DefaultHeader(APDF: TJPFpdfExtends);
     procedure DefaultFooter(APDF: TJPFpdfExtends);
   public
-    constructor Create(const ADataSet: TDataSet; const ADownloadFile: Boolean = True; const AChildRecords: Boolean = True);
+    constructor Create(const ADataSet: TDataSet; const AFileFieldStructure: String; const ADownloadFile: Boolean = True; const AChildRecords: Boolean = True);
     destructor Destroy; override;
 
     function ToStream: TStream;
@@ -36,9 +39,59 @@ type
 implementation
 
 uses
-  DataSet.PDF.Config, Generics.Collections, DataSet.Serialize.Utils;
+  DataSet.PDF.Config, Generics.Collections, DataSet.Serialize.Utils, fpjson, LConvEncoding, StrUtils;
 
 { TDataSetPDF }
+
+function TDataSetPDF.StrToAlignment(const AAlignment: String;
+  const ADefaultAlignment: TAlignment): TAlignment;
+begin
+  case AnsiIndexText(AAlignment, ['taleftjustify', 'tarightjustify', 'tacenter']) of
+    0: Result := taLeftJustify;
+    1: Result := taRightJustify;
+    2: Result := taCenter;
+  else
+    Result := ADefaultAlignment;
+  end;
+end;
+
+procedure TDataSetPDF.LoadFieldStructure;
+var
+  I: Integer;
+  LFile: TStringList;
+  LJSONFieldStructure: TJSONArray;
+  LJSONObject : TJSONObject;
+begin
+  if (Trim(FFileFieldStructure) = EmptyStr) then
+    Exit;
+
+  if not FileExists(FFileFieldStructure) then
+    Exit;
+
+  LFile := TStringList.Create;
+  try
+    LFile.LoadFromFile(FFileFieldStructure);
+    LJSONFieldStructure := TJSONArray(GetJSON(LFile.Text));
+
+    for I := 0 to Pred(LJSONFieldStructure.Count) do
+    begin
+      LJSONObject := LJSONFieldStructure.Items[I] as TJSONObject;
+      if Assigned(FDataSet.FindField(LJSONObject.Get('fieldName',''))) then
+      begin
+        with FDataSet.FieldByName(LJSONObject.Get('fieldName','')) do
+        begin
+          DisplayWidth := LJSONObject.Get('displayWidth',DisplayWidth);
+          DisplayLabel := LJSONObject.Get('displayLabel',DisplayLabel);
+          Visible      := LJSONObject.Get('visible',Visible);
+          Alignment    := StrToAlignment(LowerCase(LJSONObject.Get('alignment','')),Alignment);
+        end;
+      end;
+    end;
+  finally
+    LFile.Free;
+    LJSONFieldStructure.Free;
+  end;
+end;
 
 procedure TDataSetPDF.DoTableTitles(const ADataSet: TDataSet);
 var
@@ -75,7 +128,7 @@ begin
   begin
     LField := ADataSet.Fields[I];
     SetLength(LArrayOfTableRow, I+1);
-    LArrayOfTableRow[I] := LField.Text;
+    LArrayOfTableRow[I] := CP1252ToUTF8(LField.Text);
   end;
 
   FPDF.TableRow(LArrayOfTableRow);
@@ -139,9 +192,11 @@ begin
 end;
 
 constructor TDataSetPDF.Create(const ADataSet: TDataSet;
-  const ADownloadFile: Boolean; const AChildRecords: Boolean);
+  const AFileFieldStructure: String; const ADownloadFile: Boolean;
+  const AChildRecords: Boolean);
 begin
   FDataSet := ADataSet;
+  FFileFieldStructure := AFileFieldStructure;
   FDownloadFile := ADownloadFile;
   FChildRecord := AChildRecords;
   FPDF := TDJPDFReport.Create(TDataSetPDFConfig.GetInstance.Orientation,
@@ -185,6 +240,8 @@ begin
       Result := FPDF.CreateContentStream(csToViewBrowser);
     Exit;
   end;
+
+  LoadFieldStructure;
 
   FPDF.SetFont(TDataSetPDFConfig.GetInstance.Font,
                TDataSetPDFConfig.GetInstance.FontStyle,
