@@ -1,6 +1,7 @@
 # DataSet PDF for Lazarus (FPC)
 
 ## ⭕ Prerequisites
+- [**dataset-serialize**](https://github.com/viniciussanchez/dataset-serialize).
 - [**djpdfreport**](https://github.com/andre-djsystem/djpdfreport).
 - [**free-jpdf-pascal**](https://github.com/jepafi/free-jpdf-pascal).
 
@@ -17,6 +18,7 @@ If you choose to install manually, simply add the following folders to your proj
 ../dataset-pdf/src
 ../djpdfreport
 ../free-jpdf-pascal
+../dataset-serialize/src
 ```
 
 ## ⚡️ Quickstart
