@@ -60,7 +60,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\src;..\..\..\DJPDFReport;..\..\modules\free-jpdf-pascal;..\..\..\dataset-serialize\src"/>
+      <OtherUnitFiles Value="..\..\src;..\..\..\DJPDFReport;..\..\modules\dataset-serialize\src;..\..\modules\djpdfreport;..\..\modules\free-jpdf-pascal"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
