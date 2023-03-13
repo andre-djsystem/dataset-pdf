@@ -1,0 +1,26 @@
+[
+	{
+		"fieldName": "name",
+		"displayWidth": 80,
+		"displayLabel": "Name",
+		"visible": true
+	},    
+	{
+		"fieldName": "e_mail",
+		"displayWidth": 100,
+		"displayLabel": "E-mail",
+		"visible": true
+	},    
+	{
+		"fieldName": "pass",
+		"displayWidth": 60,
+		"displayLabel": "Password",
+		"visible": true
+	},    
+	{
+		"fieldName": "active",
+		"displayWidth": 30,
+		"displayLabel": "Active",
+		"visible": true
+	}    
+]

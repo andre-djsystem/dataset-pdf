@@ -8,7 +8,7 @@ interface
 
 uses
 {$IF DEFINED(FPC)}
-  Classes, DB, DJPDFReport, libjpfpdf, Generics.Collections, DataSet.Serialize, DataSet.PDF.Export, DataSet.PDF.Config;
+  Classes, DB, libjpfpdf, DataSet.Serialize, DataSet.PDF.Export, DataSet.PDF.Config;
 {$ENDIF}
 
 type

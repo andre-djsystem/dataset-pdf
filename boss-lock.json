@@ -2,10 +2,18 @@
 	"hash": "d41d8cd98f00b204e9800998ecf8427e",
 	"updated": "2022-10-28T10:22:09.7460315-03:00",
 	"installedModules": {
+		"github.com/viniciussanchez/dataset-serialize": {
+			"name": "dataset-serialize",
+			"version": "v2.4.8",
+			"hash": "35c05c0196720756923c48da654e4817",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
 		"https://github.com/djsystemweb/djpdfreport": {
 			"name": "djpdfreport",
 			"version": "0.0.2",
-			"hash": "4b6efc856fc7b29833924fce4c660e13",
+			"hash": "52c7fe1dc914535fd17b92361003ced7",
 			"artifacts": {},
 			"failed": false,
 			"changed": false

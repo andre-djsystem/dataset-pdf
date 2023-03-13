@@ -71,7 +71,12 @@ begin
   LFile := TStringList.Create;
   try
     LFile.LoadFromFile(FFileFieldStructure);
-    LJSONFieldStructure := TJSONArray(GetJSON(LFile.Text));
+    try
+      LJSONFieldStructure := TJSONArray(GetJSON(LFile.Text));
+    except
+      On E: Exception do
+        raise Exception.Create('Invalid Field Structure - '+E.Message);
+    end;
 
     for I := 0 to Pred(LJSONFieldStructure.Count) do
     begin

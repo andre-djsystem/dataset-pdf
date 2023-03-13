@@ -1,0 +1,133 @@
+object Form1: TForm1
+  Left = 460
+  Height = 364
+  Top = 265
+  Width = 479
+  Caption = 'DataSetPDF'
+  ClientHeight = 364
+  ClientWidth = 479
+  LCLVersion = '2.2.0.4'
+  object Label1: TLabel
+    Left = 12
+    Height = 15
+    Top = 13
+    Width = 33
+    Caption = 'Nome'
+  end
+  object Label2: TLabel
+    Left = 247
+    Height = 15
+    Top = 13
+    Width = 29
+    Caption = 'Email'
+  end
+  object Label3: TLabel
+    Left = 12
+    Height = 15
+    Top = 64
+    Width = 32
+    Caption = 'Senha'
+  end
+  object edName: TEdit
+    Left = 12
+    Height = 23
+    Top = 32
+    Width = 220
+    TabOrder = 0
+  end
+  object edEmail: TEdit
+    Left = 248
+    Height = 23
+    Top = 32
+    Width = 220
+    TabOrder = 1
+  end
+  object edPass: TEdit
+    Left = 12
+    Height = 23
+    Top = 80
+    Width = 220
+    TabOrder = 2
+  end
+  object btAdd: TButton
+    Left = 376
+    Height = 25
+    Top = 72
+    Width = 92
+    Caption = 'Adicionar'
+    OnClick = btAddClick
+    TabOrder = 3
+  end
+  object rgActive: TRadioGroup
+    Left = 248
+    Height = 47
+    Top = 56
+    Width = 116
+    AutoFill = True
+    Caption = 'Ativo'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 27
+    ClientWidth = 112
+    Columns = 2
+    Items.Strings = (
+      'Sim'
+      'Não'
+    )
+    TabOrder = 4
+  end
+  object DBGrid1: TDBGrid
+    Left = 12
+    Height = 204
+    Top = 112
+    Width = 456
+    Color = clWindow
+    Columns = <>
+    DataSource = dsUsers
+    TabOrder = 5
+  end
+  object btPDFFile: TButton
+    Left = 376
+    Height = 25
+    Top = 328
+    Width = 92
+    Caption = 'Gerar PDF'
+    OnClick = btPDFFileClick
+    TabOrder = 6
+  end
+  object mtUsers: TMemDataset
+    FieldDefs = <    
+      item
+        Name = 'Name'
+        DataType = ftString
+        Size = 100
+      end    
+      item
+        Name = 'Email'
+        DataType = ftString
+        Size = 100
+      end    
+      item
+        Name = 'Pass'
+        DataType = ftString
+        Size = 60
+      end    
+      item
+        Name = 'Active'
+        DataType = ftInteger
+        Size = 1
+      end>
+    Left = 360
+    Top = 8
+  end
+  object dsUsers: TDataSource
+    DataSet = mtUsers
+    Left = 304
+    Top = 8
+  end
+end
