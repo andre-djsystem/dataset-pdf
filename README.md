@@ -80,4 +80,4 @@ procedure ToPDFFile(const AFileName: String; const AFieldStructure: String = '';
 Inspired in [dataset-serialize](https://github.com/viniciussanchez/dataset-serialize)
 
 ## ⚠️ License
-`LazJWT` is free and open-source library licensed under the [MIT License](https://github.com/andre-djsystem/dataset-pdf/blob/main/LICENSE).
+`dataset-pdf` is free and open-source library licensed under the [MIT License](https://github.com/andre-djsystem/dataset-pdf/blob/main/LICENSE).
